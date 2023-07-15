@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Usuario User;
     public void onClick(View v)
     {
-        if (v.getId() == R.id.validar) {
-
+        if (v.getId() == R.id.validar)
+        {
             boolean log = Banco.verificaLogin(user.getText().toString(),senha.getText().toString());
 
             if (log == true)
@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                Toast.makeText(this, "Usuario/Senha Não Cadastrados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Usuário não cadastrado", Toast.LENGTH_SHORT).show();
             }
         }
 
-        if (v.getId() == R.id.criar) {
-
+        if (v.getId() == R.id.criar)
+        {
             String nome = user.getText().toString(), senhaaa = senha.getText().toString();
 
             if (nome.isEmpty()  || senhaaa.isEmpty())
@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Banco = UserBanco.getInstance(this);
