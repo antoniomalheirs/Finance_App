@@ -2,7 +2,8 @@ package com.example.finance;
 
 import android.telephony.mbms.StreamingServiceInfo;
 
-public class Usuario {
+public class Usuario
+{
 
     private int idUser;
     private String nome;
