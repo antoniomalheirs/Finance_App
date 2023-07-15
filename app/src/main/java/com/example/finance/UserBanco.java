@@ -98,15 +98,11 @@ public class UserBanco implements InterfaceBanco
         Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         int index = cursor.getColumnIndex(COLUNA_USERNAME), indexx = cursor.getColumnIndex(COLUNA_PASSWORD), indexxx = cursor.getColumnIndex(COLUNA_ID);
-        if (cursor.moveToFirst()) {
 
+        if (cursor.moveToFirst())
+        {
             user = new Usuario(cursor.getString(index), cursor.getString(indexx), cursor.getInt(indexxx));
-            // Crie uma instância do objeto Usuario com os dados recuperados
-
         }
-
-        cursor.close();
-        //db.close();
         return user;
     }
 
@@ -131,34 +127,21 @@ public class UserBanco implements InterfaceBanco
     {
         SQLiteDatabase db = Banco.getReadableDatabase();
 
-        String[] projection = {"Username", "Password"};
-        String selection = "Username = ? AND Password = ?";
+        String[] projection = {COLUNA_USERNAME, COLUNA_PASSWORD};
+        String selection = COLUNA_USERNAME + " = ?" + " AND " + COLUNA_PASSWORD + " = ?";
         String[] selectionArgs = {username, password};
 
-        Cursor cursor = db.query("Users", projection, selection, selectionArgs, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        boolean isValidCredentials = cursor.moveToFirst();
+        boolean existente = cursor.moveToFirst();
 
-        cursor.close();
-        db.close();
-
-        return isValidCredentials;
+        return existente;
     }
 
     public void deleteData()
     {
         db = Banco.getWritableDatabase();
         db.execSQL(UserBanco.scriptDropLogin);
-    }
-    public void createData(String nome, String senha)
-    {
-        db = Banco.getWritableDatabase();
-        db.execSQL(UserBanco.scriptDropLogin);
-        db.execSQL(UserBanco.sqlCreateLogin);
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_USERNAME, nome);
-        values.put(COLUNA_PASSWORD, senha);
-        db.insert(TABLE_NAME, null, values);
     }
 
     @Override
