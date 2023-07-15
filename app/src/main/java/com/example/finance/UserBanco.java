@@ -8,9 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserBanco implements InterfaceBanco {
-
-
+public class UserBanco implements InterfaceBanco
+{
     public static final String TABLE_NAME = "Users";
     public static final String COLUNA_ID = "idUser";
     public static final String COLUNA_USERNAME = "Username";
@@ -21,32 +20,32 @@ public class UserBanco implements InterfaceBanco {
     private SQLiteDatabase db;
     private static Banco Banco;
     private static UserBanco instance;
+
     public static UserBanco getInstance(Context context)
     {
         if(instance == null)
             instance = new UserBanco(context);
         return instance;
     }
+
     private UserBanco(Context context)
     {
         Banco = Banco.getInstance(context);
         db = Banco.getWritableDatabase();
+        createData();
     }
 
-    private ContentValues gerarContentValuesUsuario(Usuario user)
+    public void createData()
     {
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_USERNAME, user.getNome());
-        values.put(COLUNA_PASSWORD, user.getSenha());
-        // Serve para linkar a coluna com o registro:
-        return values;
+        db = Banco.getWritableDatabase();
+        db.execSQL(UserBanco.sqlCreateLogin);
     }
 
     public boolean adicionaUser(String nome, String senha)
     {
         db = Banco.getWritableDatabase();
 
-        if (verificaCadastro(db,nome,senha))
+        if (verificaCadastro(db,nome,senha) || verificaCadastro(db,nome))
         {
             return false;
         }
@@ -71,6 +70,19 @@ public class UserBanco implements InterfaceBanco {
         boolean userExists = cursor.moveToFirst();
 
         cursor.close();
+
+        return userExists;
+    }
+
+    public boolean verificaCadastro(SQLiteDatabase db, String username)
+    {
+        String[] projection = {COLUNA_USERNAME, COLUNA_PASSWORD};
+        String selection = COLUNA_USERNAME + " = ?";
+        String[] selectionArgs = {username};
+
+        Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        boolean userExists = cursor.moveToFirst();
 
         return userExists;
     }
@@ -150,11 +162,6 @@ public class UserBanco implements InterfaceBanco {
     }
 
     @Override
-    public void salvar(Object obj)
-    {
-        Usuario user = (Usuario) obj;   // casting
-        ContentValues values = gerarContentValuesUsuario(user);
-        db.insert(TABLE_NAME, null, values);
-    }
+    public void salvar(Object obj) {}
 }
 
