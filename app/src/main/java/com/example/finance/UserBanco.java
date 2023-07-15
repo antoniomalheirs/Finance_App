@@ -69,8 +69,6 @@ public class UserBanco implements InterfaceBanco
 
         boolean userExists = cursor.moveToFirst();
 
-        cursor.close();
-
         return userExists;
     }
 
@@ -112,13 +110,13 @@ public class UserBanco implements InterfaceBanco
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         int index = cursor.getColumnIndex(COLUNA_USERNAME), indexx = cursor.getColumnIndex(COLUNA_PASSWORD), indexxx = cursor.getColumnIndex(COLUNA_ID);
 
-        while (cursor.moveToNext()) {
+        while (cursor.moveToNext())
+        {
             int id = cursor.getInt(indexxx);
             String nome = cursor.getString(index);
             String senhaa = cursor.getString(indexx);
             user.setText(nome);
             senha.setText(senhaa);
-            // Faça algo com os dados lidos, como exibi-los em um TextView
         }
         cursor.close();
     }
@@ -136,12 +134,6 @@ public class UserBanco implements InterfaceBanco
         boolean existente = cursor.moveToFirst();
 
         return existente;
-    }
-
-    public void deleteData()
-    {
-        db = Banco.getWritableDatabase();
-        db.execSQL(UserBanco.scriptDropLogin);
     }
 
     @Override
