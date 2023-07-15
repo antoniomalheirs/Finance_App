@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
     EditText user,senha;
     UserBanco Banco;
     Usuario User;
@@ -75,7 +76,5 @@ public class MainActivity extends AppCompatActivity {
         User = new Usuario("Jonas","1234");
         user = findViewById(R.id.enuser);
         senha =findViewById(R.id.ensenha);
-        //Banco.deleteData();
-        Banco.createData(User.getNome(), User.getSenha());
     }
 }
