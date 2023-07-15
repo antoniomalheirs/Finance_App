@@ -54,15 +54,14 @@ public class MainActivity extends AppCompatActivity {
             {
                 boolean log = Banco.adicionaUser(nome,senhaaa);
 
-                if (log == true)
+                if (log == true )
                 {
-                    Toast.makeText(this, "Usuario e Senha Cadastrados", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Usuário Cadastrados", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(this, "Já Cadastrado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Usuário existente", Toast.LENGTH_SHORT).show();
                 }
-
             }
         }
     }
