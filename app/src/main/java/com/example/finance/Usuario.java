@@ -7,14 +7,12 @@ public class Usuario {
     private int idUser;
     private String nome;
     private String senha;
-    //private float saldo;
 
     public Usuario(String nome, String senha, int idUser)
     {
         this.nome = nome;
         this.senha  = senha;
         this.idUser = idUser;
-        //this.saldo = 0;
     }
 
     public Usuario(String nome, String senha)
@@ -27,6 +25,7 @@ public class Usuario {
     {
         return nome;
     }
+
     public String getSenha()
     {
         return senha;
