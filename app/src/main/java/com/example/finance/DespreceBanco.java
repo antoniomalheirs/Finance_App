@@ -4,8 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DespreceBanco implements InterfaceBanco
 {
@@ -58,20 +67,36 @@ public class DespreceBanco implements InterfaceBanco
         return true;
     }
 
-    public boolean verificaHistorico(SQLiteDatabase db,String descricao, String valor,  Desprece desprece)
+    public void exibirPesquisaNoListView(ListView listView, Context context, String Data, String Descricao, int iduse)
     {
         db = Banco.getReadableDatabase();
-        String[] projection = {COLUNA_IDUSER, COLUNA_TIPO, COLUNA_DESCRICAO, COLUNA_VALOR};
-        String selection = COLUNA_IDUSER + " = ?" + " AND " + COLUNA_TIPO + " = ?" + " AND " + COLUNA_DESCRICAO + " = ?" + " AND " + COLUNA_VALOR + " = ?";
-        String[] selectionArgs = {String.valueOf(desprece.getId()), desprece.getTipo(), descricao, valor};
+        Cursor cursor = db.query(TABLE_NAME, null, COLUNA_DATA + " = ? " + " AND " + COLUNA_IDUSER + " = ? " +"OR " + COLUNA_DESCRICAO + " = ? " + " AND " + COLUNA_IDUSER + " = ?", new String[]{Data, Integer.toString(iduse), Descricao, Integer.toString(iduse)}, null, null, null);
+        int index = cursor.getColumnIndex(COLUNA_DESCRICAO), indexx = cursor.getColumnIndex(COLUNA_VALOR), indexxx = cursor.getColumnIndex(COLUNA_TIPO),indexxxx = cursor.getColumnIndex(COLUNA_DATA);
+        List<String> dataList = new ArrayList<>();
 
-        Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        while (cursor.moveToNext())
+        {
+            String descricao = cursor.getString(index);
+            int valor = cursor.getInt(indexx);
+            String tipo = cursor.getString(indexxx);
+            String data = cursor.getString(indexxxx);
+            String linha = data + " - " + tipo + " - " + descricao + " - " + valor;
 
-        boolean entryExists = cursor.moveToFirst();
+            dataList.add(linha);
+        }
 
-        cursor.close();
-
-        return entryExists;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, dataList)
+        {
+            @Override
+            public View getView (int position, View convertView, ViewGroup parent)
+            {
+                View view = super.getView(position, convertView, parent);
+                int cor = Color.parseColor("#FF0000");
+                ((TextView) view).setTextColor(cor);
+                return view;
+            }
+        };
+        listView.setAdapter(adapter);
     }
 
     public void mostraUser(EditText descricaoo, EditText valorr, Switch r, Switch d)
