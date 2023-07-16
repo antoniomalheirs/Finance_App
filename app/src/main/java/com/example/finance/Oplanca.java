@@ -113,5 +113,23 @@ public class Oplanca extends AppCompatActivity
         BancoD = DespreceBanco.getInstance(this);
         DataF = new SimpleDateFormat("dd/YY");
         Data = new Date();
+
+        String name = getIntent().getStringExtra("nome");
+        String senha = getIntent().getStringExtra("senha");
+        User = BancoU.getUsuarioLogado(User,name,senha);
+        Desprece = new Desprece(User);
+        BancoD.exibirDadosNoListView(listdados, this,User.getId());
+        updateUser(Tuser);
+
+        runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                BancoD.exibirDadosNoListView(listdados, getBaseContext(),User.getId());
+                handler.postDelayed(this, 15000);
+            }
+        };
+        handler.postDelayed(runnable, 1000);
     }
 }
