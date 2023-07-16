@@ -37,28 +37,29 @@ public class DespreceBanco implements InterfaceBanco
         createData();
     }
 
-    public boolean adicionarDado(Desprece desprece)
+    public void createData()
     {
-        //db = Banco.getReadableDatabase();
-
-        if (verificaHistorico(db,desprece.getDescricao(),Float.toString(desprece.getValor()), desprece))
-        {
-           return false;
-        }
-        else
-        {
-            db = Banco.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(COLUNA_DESCRICAO, desprece.getDescricao());
-            values.put(COLUNA_VALOR, desprece.getValor());
-            values.put(COLUNA_IDUSER, desprece.getIdUser());
-            values.put(COLUNA_TIPO, desprece.getTipo());
-            db.insert(TABLE_NAME, null, values);
-            return true;
-        }
+        db = Banco.getWritableDatabase();
+        db.execSQL(DespreceBanco.sqlCreateDesprece);
     }
 
-    public boolean verificaHistorico(SQLiteDatabase db,String descricao, String valor,  Desprece desprece) {
+    public boolean adicionarDado(Desprece desprece)
+    {
+        db = Banco.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_DESCRICAO, desprece.getDescricao());
+        values.put(COLUNA_VALOR, desprece.getValor());
+        values.put(COLUNA_IDUSER, desprece.getIdUser());
+        values.put(COLUNA_TIPO, desprece.getTipo());
+        values.put(COLUNA_DATA, desprece.getData());
+
+        db.insert(TABLE_NAME, null, values);
+        return true;
+    }
+
+    public boolean verificaHistorico(SQLiteDatabase db,String descricao, String valor,  Desprece desprece)
+    {
         db = Banco.getReadableDatabase();
         String[] projection = {COLUNA_IDUSER, COLUNA_TIPO, COLUNA_DESCRICAO, COLUNA_VALOR};
         String selection = COLUNA_IDUSER + " = ?" + " AND " + COLUNA_TIPO + " = ?" + " AND " + COLUNA_DESCRICAO + " = ?" + " AND " + COLUNA_VALOR + " = ?";
@@ -102,29 +103,7 @@ public class DespreceBanco implements InterfaceBanco
         cursor.close();
     }
 
-    public void deleteData()
-    {
-        db = Banco.getWritableDatabase();
-        db.execSQL(DespreceBanco.scriptDropDesprece);
-    }
-
-    public void createData()
-    {
-        db = Banco.getWritableDatabase();
-        db.execSQL(DespreceBanco.scriptDropDesprece);
-        db.execSQL(DespreceBanco.sqlCreateDesprece);
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_DESCRICAO, "Default");
-        values.put(COLUNA_VALOR, 192.7);
-        values.put(COLUNA_TIPO, "Receita");
-        db.insert(TABLE_NAME, null, values);
-    }
-
     @Override
-    public void salvar(Object obj)
-    {
-        Desprece desprece = (Desprece) obj;   // casting
-        db.insert(TABLE_NAME, null, values);
-    }
+    public void salvar(Object obj) {}
 }
 
