@@ -40,6 +40,18 @@ public class Ophistorico extends AppCompatActivity
 
         String name = getIntent().getStringExtra("nome");
         displayuser.setText(name + " este é seu");
+
+        runnable = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                BancoD.exibirDadosNoListView(displaylistdados, getBaseContext(),iduser);
+                handler.postDelayed(this, 35000);
+            }
+        };
+
+        handler.postDelayed(runnable, 1000);
     }
 
     public void onClick(View v)
