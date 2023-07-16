@@ -60,6 +60,7 @@
         android:layout_marginTop="2dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:numeric="integer"
         android:textColor="#673AB7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/valort" />
@@ -121,4 +122,27 @@
         android:textColor="#008377"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adicionar" />
+
+    <ListView
+        android:id="@+id/listdados"
+        android:layout_width="380dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#FF0000"
+        app:layout_constraintTop_toBottomOf="@+id/valor" />
+
+    <Button
+        android:id="@+id/sair"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="22dp"
+        android:onClick="onClickop"
+        android:text="Sair"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listdados" />
 </androidx.constraintlayout.widget.ConstraintLayout>
