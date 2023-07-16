@@ -6,30 +6,132 @@
     android:layout_height="match_parent"
     tools:context=".Ophistorico">
 
+    <Button
+        android:id="@+id/pesquisarhistorico"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="22dp"
+        android:onClick="onClick"
+        android:text="Pesquisar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaylistdados" />
+
+    <EditText
+        android:id="@+id/displaydata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#673AB7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaydatat" />
+
+    <TextView
+        android:id="@+id/displaydatat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="201dp"
+        android:layout_marginTop="20dp"
+        android:text="Data Despesa/Receita"
+        android:textColor="#FF0000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaydescricao" />
+
+    <EditText
+        android:id="@+id/displaydescricao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="2dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#673AB7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaydescricaot" />
+
+    <TextView
+        android:id="@+id/displaydescricaot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Descrição Despesa/Receita"
+        android:textColor="#FF0000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <TextView
         android:id="@+id/textView"
-        android:layout_width="260dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="88dp"
+        android:layout_width="380dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="Historico de Receitas/Despesas Detalhado"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#FF0000"
         android:textSize="14dp"
-        android:text="Historico de Receitas/Despesas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayuser" />
+
+    <TextView
+        android:id="@+id/displayuser"
+        android:layout_width="260dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="75dp"
+        android:textAlignment="center"
+        android:textColor="#673AB7"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fecharhistorico"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="22dp"
         android:layout_marginEnd="22dp"
-        android:layout_marginBottom="22dp"
         android:onClick="onClick"
         android:text="Fechar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaylistdados" />
+
+    <ListView
+        android:id="@+id/displaylistdados"
+        android:layout_width="409dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displaydata" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="210dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="-210dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginEnd="30dp"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:text="dd/yy"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#40009688"
+        android:textIsSelectable="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/displaydata"
+        app:layout_constraintTop_toBottomOf="@+id/displaydata" />
 </androidx.constraintlayout.widget.ConstraintLayout>
