@@ -2,6 +2,7 @@ package com.example.finance;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -68,10 +69,10 @@ public class Oplanca extends AppCompatActivity
 
         if (v.getId() == R.id.historico)
         {
-            Toast.makeText(this, User.getSenha(), Toast.LENGTH_SHORT).show();
-            BancoD.mostraUser(descricao,valor, receita, despesa);
-            //Intent Op = new Intent(getApplicationContext(),Ophistorico.class);
-            //startActivity(Op);
+            Intent Ophist = new Intent(getApplicationContext(),Ophistorico.class);
+            Ophist.putExtra("nome",User.getNome());
+            Ophist.putExtra("idu",User.getId());
+            startActivity(Ophist);
         }
 
         if (v.getId() == R.id.sair)
@@ -100,18 +101,17 @@ public class Oplanca extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oplanca);
-        BancoU = UserBanco.getInstance(this);
-        BancoD = DespreceBanco.getInstance(this);
-        BancoD.createData();
+
         Tuser =findViewById(R.id.username);
         descricao = findViewById(R.id.descricao);
-        valor = findViewById(R.id.valor);
         despesa = findViewById(R.id.despesa);
         receita = findViewById(R.id.receita);
-        String name = getIntent().getStringExtra("nome");
-        String senha = getIntent().getStringExtra("senha");
-        User = BancoU.getUsuarioLogado(User,name,senha);
-        Desprece = new Desprece(User);
-        updateUser(Tuser);
+        valor = findViewById(R.id.valor);
+        listdados = findViewById(R.id.listdados);
+
+        BancoU = UserBanco.getInstance(this);
+        BancoD = DespreceBanco.getInstance(this);
+        DataF = new SimpleDateFormat("dd/YY");
+        Data = new Date();
     }
 }
