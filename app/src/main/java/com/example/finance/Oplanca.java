@@ -3,26 +3,42 @@ package com.example.finance;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class Oplanca extends AppCompatActivity {
-
-    Switch receita,despesa;
-    TextView Tuser;
+public class Oplanca extends AppCompatActivity
+{
     EditText descricao,valor;
+    Switch receita,despesa;
+
+    Date Data;
+    SimpleDateFormat DataF;
+
+    ListView listdados;
+
+    TextView Tuser;
+
+    private final Handler handler = new Handler();
+    private Runnable runnable;
+
     UserBanco BancoU;
-    DespreceBanco BancoD;
     Usuario User;
+    DespreceBanco BancoD;
     Desprece Desprece;
+
     public  void updateUser(TextView u)
     {
         Tuser = u;
         u.setText(User.getNome() + ", Bem Vindo ao Family");
     }
+
     public void onClickop( View v)
     {
         if (v.getId() == R.id.adicionar)
@@ -35,20 +51,18 @@ public class Oplanca extends AppCompatActivity {
             }
             else
             {
-                Desprece = new Desprece(User, Desprece.getTipo(), ddescricao, Float.parseFloat(vvalor));
+                Desprece = new Desprece(User, Desprece.getTipo(), ddescricao, Float.parseFloat(vvalor),DataF.format(Data));
 
                 boolean log = BancoD.adicionarDado(Desprece);
 
-                if (log == true)
+                if (log)
                 {
-                    Toast.makeText(this, "S", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Lançamento gravado", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Toast.makeText(this, "N", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Erro de gravação", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         }
 
@@ -58,6 +72,11 @@ public class Oplanca extends AppCompatActivity {
             BancoD.mostraUser(descricao,valor, receita, despesa);
             //Intent Op = new Intent(getApplicationContext(),Ophistorico.class);
             //startActivity(Op);
+        }
+
+        if (v.getId() == R.id.sair)
+        {
+            finish();
         }
     }
 
