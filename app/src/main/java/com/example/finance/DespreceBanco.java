@@ -99,33 +99,38 @@ public class DespreceBanco implements InterfaceBanco
         listView.setAdapter(adapter);
     }
 
-    public void mostraUser(EditText descricaoo, EditText valorr, Switch r, Switch d)
+    public void exibirDadosNoListView(ListView listView, Context context, int iduse)
     {
         db = Banco.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        int index = cursor.getColumnIndex(COLUNA_DESCRICAO), indexx = cursor.getColumnIndex(COLUNA_VALOR), indexxx = cursor.getColumnIndex(COLUNA_ID),indexxxx = cursor.getColumnIndex(COLUNA_IDUSER),indexxxxx = cursor.getColumnIndex(COLUNA_TIPO);
+        Cursor cursor = db.query(TABLE_NAME, null, COLUNA_IDUSER + " = ? ", new String[]{Integer.toString(iduse)}, null, null, null);
+        int index = cursor.getColumnIndex(COLUNA_DESCRICAO), indexx = cursor.getColumnIndex(COLUNA_VALOR), indexxx = cursor.getColumnIndex(COLUNA_ID),indexxxx = cursor.getColumnIndex(COLUNA_IDUSER),indexxxxx = cursor.getColumnIndex(COLUNA_TIPO),indexxxxxx = cursor.getColumnIndex(COLUNA_DATA);
+        List<String> dataList = new ArrayList<>();
 
-        while (cursor.moveToNext()) {
+        while (cursor.moveToNext())
+        {
             String descricao = cursor.getString(index);
-            Float valor = cursor.getFloat(indexx);
-            float id = cursor.getFloat(indexxx);
+            int valor = cursor.getInt(indexx);
+            int id = cursor.getInt(indexxx);
             int iduser = cursor.getInt(indexxxx);
             String tipo = cursor.getString(indexxxxx);
-            descricaoo.setText(descricao);
-            valorr.setText(Float.toString(valor));
+            String data = cursor.getString(indexxxxxx);
+            String linha = data + " - " + iduser + " - " + tipo + " - " + descricao + " - " + valor;
 
-            if (tipo.compareTo("Receita") == 0)
-            {
-                r.setChecked(true);
-                d.setChecked(false);
-            }
-            else if (tipo.compareTo("Despesa") == 0)
-            {
-                d.setChecked(true);
-                r.setChecked(false);
-            }
+            dataList.add(linha);
         }
-        cursor.close();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,android.R.layout.simple_list_item_1, dataList)
+        {
+            @Override
+            public View getView (int position, View convertView, ViewGroup parent)
+            {
+                View view = super.getView(position, convertView, parent);
+                int cor = Color.parseColor("#FF0000");
+                ((TextView) view).setTextColor(cor);
+                return view;
+            }
+        };
+        listView.setAdapter(adapter);
     }
 
     @Override
