@@ -7,35 +7,36 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 import android.widget.Switch;
 
-public class DespreceBanco implements InterfaceBanco {
-
+public class DespreceBanco implements InterfaceBanco
+{
     public static final String TABLE_NAME = "Desprece";
     public static final String COLUNA_ID = "Iddesprece";
     public static final String COLUNA_IDUSER = "idUser";
-    public static final String COLUNA_TIPO = "Desprece";
+    public static final String COLUNA_TIPO = "DespreceT";
     public static final String COLUNA_DESCRICAO = "Descricao";
     public static final String COLUNA_VALOR = "Valor";
-    public static final String sqlCreateDesprece = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-            COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUNA_IDUSER + " INTEGER, " +
-            COLUNA_TIPO + " TEXT, " +
-            COLUNA_DESCRICAO + " TEXT, " +
-            COLUNA_VALOR + " REAL" + ")";
+    public static final String COLUNA_DATA = "Data";
+    public static final String sqlCreateDesprece = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUNA_IDUSER + " INTEGER, " + COLUNA_TIPO + " TEXT, " + COLUNA_DESCRICAO + " TEXT, " + COLUNA_DATA + " TEXT, " + COLUNA_VALOR + " INT" + ")";
     public static final String scriptDropDesprece= "DROP TABLE IF EXISTS " + TABLE_NAME;
+
     private SQLiteDatabase db;
     private static Banco Banco;
     private static DespreceBanco instance;
+
     public static DespreceBanco getInstance(Context context)
     {
         if(instance == null)
             instance = new DespreceBanco(context);
         return instance;
     }
+
     private DespreceBanco(Context context)
     {
         Banco = Banco.getInstance(context);
         db = Banco.getWritableDatabase();
+        createData();
     }
+
     public boolean adicionarDado(Desprece desprece)
     {
         //db = Banco.getReadableDatabase();
@@ -56,6 +57,7 @@ public class DespreceBanco implements InterfaceBanco {
             return true;
         }
     }
+
     public boolean verificaHistorico(SQLiteDatabase db,String descricao, String valor,  Desprece desprece) {
         db = Banco.getReadableDatabase();
         String[] projection = {COLUNA_IDUSER, COLUNA_TIPO, COLUNA_DESCRICAO, COLUNA_VALOR};
@@ -70,6 +72,7 @@ public class DespreceBanco implements InterfaceBanco {
 
         return entryExists;
     }
+
     public void mostraUser(EditText descricaoo, EditText valorr, Switch r, Switch d)
     {
         db = Banco.getReadableDatabase();
@@ -89,18 +92,12 @@ public class DespreceBanco implements InterfaceBanco {
             {
                 r.setChecked(true);
                 d.setChecked(false);
-                //Desprece.setTipo("Despesa");
             }
             else if (tipo.compareTo("Despesa") == 0)
             {
                 d.setChecked(true);
                 r.setChecked(false);
-                //Desprece.setTipo("Despesa");
             }
-
-
-
-            // Faça algo com os dados lidos, como exibi-los em um TextView
         }
         cursor.close();
     }
@@ -110,6 +107,7 @@ public class DespreceBanco implements InterfaceBanco {
         db = Banco.getWritableDatabase();
         db.execSQL(DespreceBanco.scriptDropDesprece);
     }
+
     public void createData()
     {
         db = Banco.getWritableDatabase();
@@ -121,21 +119,11 @@ public class DespreceBanco implements InterfaceBanco {
         values.put(COLUNA_TIPO, "Receita");
         db.insert(TABLE_NAME, null, values);
     }
-    private ContentValues gerarContentValuesUsuario(Desprece desprece)
-    {
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_IDUSER, desprece.getIdUser());
-        values.put(COLUNA_TIPO, desprece.getTipo());
-        values.put(COLUNA_DESCRICAO, desprece.getDescricao());
-        values.put(COLUNA_VALOR, desprece.getValor());
-        // Serve para linkar a coluna com o registro:
-        return values;
-    }
+
     @Override
     public void salvar(Object obj)
     {
         Desprece desprece = (Desprece) obj;   // casting
-        ContentValues values = gerarContentValuesUsuario(desprece);
         db.insert(TABLE_NAME, null, values);
     }
 }
