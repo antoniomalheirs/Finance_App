@@ -60,5 +60,19 @@ public class Ophistorico extends AppCompatActivity
         {
             finish();
         }
+
+        if (v.getId() == R.id.pesquisarhistorico)
+        {
+            String da = data.getText().toString(),de = descricao.getText().toString();
+
+            if (da.isEmpty() && de.isEmpty())
+            {
+                Toast.makeText(this, "Preencha um dos campos para pesquisar", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                BancoD.exibirPesquisaNoListView(displaylistdados, getBaseContext(),data.getText().toString(),descricao.getText().toString(),iduser);
+            }
+        }
     }
 }
